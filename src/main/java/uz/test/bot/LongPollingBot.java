@@ -17,11 +17,11 @@ public class LongPollingBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            telegramMessageService.executeEveryMinute();
             if (update.hasMessage()) {
                 String message = update.getMessage().getText();
                 switch (message) {
                     case "/start":
+                        telegramMessageService.getStart(update);
                         break;
                     case "/language":
 //                        telegramMessageService.sendLanguageMessage(update);
