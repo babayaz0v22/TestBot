@@ -21,8 +21,7 @@ public class TelegramApiService {
 
     private final String BASE_URL = "https://api.telegram.org/bot";
 
-    @Value("${telegram.bot.token}")
-    private String token;
+    private final String token = "6781315061:AAFTDC2rkgoBaXdQLv6vh-uWXdbBHtrxTew";
 
     public ApiResponse sendMessage(SendMessage sendMessage) {
         Map<String, Object> params = new HashMap<>();

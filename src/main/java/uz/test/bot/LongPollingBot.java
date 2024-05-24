@@ -1,6 +1,5 @@
 package uz.test.bot;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,12 +13,6 @@ public class LongPollingBot extends TelegramLongPollingBot {
     public LongPollingBot(TelegramMessageService telegramMessageService) {
         this.telegramMessageService = telegramMessageService;
     }
-
-    @Value("${telegram.bot.username}")
-    private String userName;
-
-    @Value("${telegram.bot.token}")
-    private String token;
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -47,12 +40,12 @@ public class LongPollingBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return userName;
+        return "train_ticket1_bot";
     }
 
     @Override
     public String getBotToken() {
-        return token;
+        return "6781315061:AAFTDC2rkgoBaXdQLv6vh-uWXdbBHtrxTew";
     }
 
 }

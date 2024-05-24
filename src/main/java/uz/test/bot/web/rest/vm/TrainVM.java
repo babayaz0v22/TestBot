@@ -13,6 +13,7 @@ public class TrainVM {
     public Object parom;
     public Object bus;
     public Object comments;
+    public Object departureTrain;
     public PlacesVM places;
 
     public String getLength() {
@@ -101,6 +102,14 @@ public class TrainVM {
 
     public void setComments(Object comments) {
         this.comments = comments;
+    }
+
+    public Object getDepartureTrain() {
+        return departureTrain;
+    }
+
+    public void setDepartureTrain(Object departureTrain) {
+        this.departureTrain = departureTrain;
     }
 
     public PlacesVM getPlaces() {

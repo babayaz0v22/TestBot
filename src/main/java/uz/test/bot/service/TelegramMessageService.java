@@ -15,6 +15,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Service
 public class TelegramMessageService {
@@ -32,14 +33,14 @@ public class TelegramMessageService {
 
     public void executeEveryMinute(){
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(drawRunnable, 0, 1, MINUTES);
+        scheduledExecutorService.scheduleAtFixedRate(drawRunnable, 0, 30, SECONDS);
     }
 
-    public void sendInfo(CarsVM carsVM){
-        if(carsVM.freeSeats != null) {
+    public void sendInfo(CarsVM carsVM, Object date){
+        if(carsVM.freeSeats != null && carsVM.type.equals("Плацкартный")) {
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId("372090525");
-            sendMessage.setText(getFormattedText("‼️‼️Bilet chiqdi‼️‼️\n" + carsVM.type + "\nBo'sh joylar: " + carsVM.freeSeats));
+            sendMessage.setText(getFormattedText("‼️‼️Bilet chiqdi‼️‼️\n" + date + "\n" + carsVM.type + "\nBo'sh joylar: " + carsVM.freeSeats));
             telegramApiService.sendMessage(sendMessage);
         }
     }
@@ -48,32 +49,38 @@ public class TelegramMessageService {
         @Override
         public void run() {
             getStart();
-            System.out.println("Beep");
         }
     };
-        public void getStart() {
-            CarsVM carsVMs = new CarsVM();
-            ResponseVM getTicket = uzRailWayTicketService.getTicketsByDate();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("‼️‼️Bilet chiqdi‼️‼️\n");
-            List<DirectionVM> direction = getTicket.express.direction;
-            for (DirectionVM dir : direction) {
-                List<TrainsVM> trains = dir.trains;
-                for (TrainsVM trainsVM : trains) {
-                    List<TrainVM> trainVM = trainsVM.train;
-                    for (TrainVM train : trainVM) {
+
+    public void getStart() {
+        CarsVM carsVMs = new CarsVM();
+        ResponseVM getTicket = uzRailWayTicketService.getTicketsByDate();
+        if(getTicket == null){
+            return;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("‼️‼️Bilet chiqdi‼️‼️\n");
+        List<DirectionVM> direction = getTicket.express.direction;
+        for (DirectionVM dir : direction) {
+            List<TrainsVM> trains = dir.trains;
+            for (TrainsVM trainsVM : trains) {
+                List<TrainVM> trainVM = trainsVM.train;
+                for (TrainVM train : trainVM) {
+                    if (train.number.equals("056Ж") || train.number.equals("058Ь")) {
                         List<CarsVM> cars = train.places.cars;
                         if (!cars.isEmpty()) {
                             for (CarsVM carsVM : cars) {
                                 carsVMs = carsVM;
+                                sendInfo(carsVMs, train.departureTrain);
+                                System.out.println(carsVM.type + ": " + carsVM.freeSeats);
                             }
                         }
                     }
                 }
             }
-            sendInfo(carsVMs);
-            log.debug("CarsVm: ", carsVMs.freeSeats);
         }
+        log.debug("CarsVm: ", carsVMs.freeSeats);
+    }
 
     private String getFormattedText(String text) {
         return text
