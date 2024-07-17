@@ -51,7 +51,13 @@ public class PinflService {
         return null;
     }
 
-    public void getPinfl(){
+    public void getPinfl(String pasInfo, String dateOfBirth, Integer captchaResult){
+        String pasSer = "";
+        String pasNum = "";
+        if(pasInfo != null){
+            pasSer = pasInfo.substring(0,2);
+            pasNum = pasInfo.substring(3,9);
+        }
         try {
             // Define the URL
             URL url = new URL("https://my3.soliq.uz/api/search-tin-api/individual/search-by-passport-data");
@@ -65,16 +71,16 @@ public class PinflService {
             httpConn.setRequestProperty("Language", "uz_cyrl");
             httpConn.setRequestProperty("User-Agent", "insomnia/9.2.0");
             httpConn.setRequestProperty("X-Captcha-Id", "E3B9BDEE31E54B03ABDE324EF1A61458");
-            httpConn.setRequestProperty("X-Captcha-Value", "8");
+            httpConn.setRequestProperty("X-Captcha-Value", captchaResult.toString());
 
             // Enable input and output streams
             httpConn.setDoOutput(true);
 
             // Define the JSON data
             String jsonInputString = "{"
-                + "\"pasSer\": \"AB\","
-                + "\"pasNum\": \"7655779\","
-                + "\"pasDob\": \"22.09.2001\","
+                + "\"pasSer\": \""+ pasSer + "\","
+                + "\"pasNum\": \"" + pasNum + "\","
+                + "\"pasDob\": \""+ dateOfBirth +"\","
                 + "\"docCode\": \"01\""
                 + "}";
 
