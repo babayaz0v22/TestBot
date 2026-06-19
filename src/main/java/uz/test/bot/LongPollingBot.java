@@ -24,10 +24,10 @@ public class LongPollingBot extends TelegramLongPollingBot {
                     case "/start":
                         break;
                     case "/language":
-//                        telegramMessageService.sendLanguageMessage(update);
+                        //                        telegramMessageService.sendLanguageMessage(update);
                         break;
                     case "/count":
-//                        telegramMessageService.sendCustomersCount(update);
+                        //                        telegramMessageService.sendCustomersCount(update);
                         break;
                 }
             } else if (update.hasCallbackQuery()) {
@@ -45,7 +45,6 @@ public class LongPollingBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "6781315061:AAFTDC2rkgoBaXdQLv6vh-uWXdbBHtrxTew";
+        return "6781315061:AAEOgwEAsmiJcJucA2ufx9ropGj3G53__KA";
     }
-
 }

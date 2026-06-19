@@ -1,5 +1,7 @@
 package uz.test.bot.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +13,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class TelegramApiService {
 
@@ -21,7 +20,7 @@ public class TelegramApiService {
 
     private final String BASE_URL = "https://api.telegram.org/bot";
 
-    private final String token = "6781315061:AAFTDC2rkgoBaXdQLv6vh-uWXdbBHtrxTew";
+    private final String token = "6781315061:AAEOgwEAsmiJcJucA2ufx9ropGj3G53__KA";
 
     public ApiResponse sendMessage(SendMessage sendMessage) {
         Map<String, Object> params = new HashMap<>();
